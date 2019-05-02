@@ -68,10 +68,14 @@ def eval_HMMs(hmm_set, file_list, feature_type='fbank'):
         # ====>>>>
 
         # STEP 1. Compute log-likelihood from each HMM
-
+        log_prob_list = []
+        for i in range(len(DIGITS)):
+            log_prob, state_seq = hmm_set[i].viterbi_decoding(features)
+            log_prob_list.append(log_prob)
         # STEP 2. Select the HMM that has the maximum likelihood
-
+        Maxlikelihood = max(log_prob_list)
         # STEP 3. Save the recognised digit label (e.g. '1') in "rec"
+        rec=DIGITS[log_prob_list.index(Maxlikelihood)]
 
         # Save recognised label in re_labels
         rec_labels = np.append(rec_labels, rec)

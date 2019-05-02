@@ -92,6 +92,12 @@ def viterbi_train(hmm, feature_list):
             # ====>>>>
             # ====>>>> FILL WITH YOUR CODE HERE
             # ====>>>>
+            state_seq_list = state_seq.tolist()
+            for s in range(hmm.num_states):
+                temp = state_seq_list.count(s)
+                state_trans[s] += temp
+                ndx = state_seq_list.index(s)
+                state_obs[s] = np.concatenate((state_obs[s], feature_list[n][ndx:temp+ndx]), axis=0)
 
         # ------------------------------------------------------
         # Update output pdfs and transition probabilities

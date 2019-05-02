@@ -153,13 +153,13 @@ class HMM:
             # ====>>>>
         
             # STEP 1. Add all transitions to previous best probs
-
+            probs = probs + self.log_transp.T
             # STEP 2. Select the previous best state from all transitions into a state
-
+            output_probs = np.amax(probs,axis=1)
             # STEP 3. Record back-trace information in back_pointers
-
+            back_pointers[:, t] = np.argmax(probs, axis=1)
             # STEP 4. Add output probs to previous best probs
-
+            probs = output_probs + log_outp[:, t]
 
         # -----------------------------------------------------------------
         # SAVE THE GLOBAL LOG LIKELIHOOD IN log_prob AS A RETURN VALUE.
@@ -181,6 +181,8 @@ class HMM:
         # ====>>>>
         # ====>>>> FILL WITH YOUR CODE HERE FOR BACK-TRACING
         # ====>>>>
+        for t in range(T, 1,-1):
+            state_seq[t-2] = back_pointers[state_seq[t-1],t-1]
 
         # -----------------------------------------------------------------
         # RETURN THE OVERAL LOG LIKELIHOOD log_prob AND THE MOST PROBABLE
