@@ -12,7 +12,7 @@ import os, pickle
 import speechtech.frontend as feat
 from hmm import HMM
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MaxNLocator
+#from matplotlib.ticker import MaxNLocator #FOR REPORT
 
 # =================================================================
 # GLOBAL VARIABLES
@@ -25,7 +25,7 @@ TEST_LIST = '{0}/flists/flist_test.txt'.format(DATA_DIR)
 
 # HMM TRAINING
 NUM_STATES = 10  # number of HMM states
-NUM_MIXTURES = 1  # number of Gaussian mixtures per state
+NUM_MIXTURES = 3  # number of Gaussian mixtures per state
 NUM_ITERATIONS = 20  # number of training iterations
 FEATURE_TYPE = 'mfcc'  # 'fbank' or 'mfcc'
 MODEL_DIR = 'models'
@@ -119,12 +119,15 @@ def viterbi_train(hmm, feature_list):
 
 
         print('Iteration {0}: log likelihood = {1}'.format(iter+1, total_errors))
+    """
+    For report
         log_likelihood_list += [total_errors]
     fig, ax = plt.subplots()
     ax.plot(list(range(NUM_ITERATIONS)), log_likelihood_list)
     ax.set_xticks(list(range(NUM_ITERATIONS)))
     ax.grid()
     plt.show()
+    """
     return hmm
 
 

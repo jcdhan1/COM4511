@@ -22,9 +22,9 @@ TRAIN_LIST = '{0}/flists/flist_train.txt'.format(DATA_DIR)
 TEST_LIST = '{0}/flists/flist_test.txt'.format(DATA_DIR)
 
 # HMM parameters
-#NUM_STATES = 10  # number of HMM states
-#NUM_MIXTURES = 1  # number of Gaussian mixtures per state
-FEATURE_TYPE = 'fbank'  # 'fbank' or 'mfcc'
+NUM_STATES = 10  # number of HMM states
+NUM_MIXTURES = 3  # number of Gaussian mixtures per state
+FEATURE_TYPE = 'mfcc'  # 'fbank' or 'mfcc'
 MODEL_DIR = 'models'
 #MODEL_FILE = os.path.join(MODEL_DIR, "hmmfile_{0}_{1}states_{2}mix".format(FEATURE_TYPE, NUM_STATES, NUM_MIXTURES))
 
@@ -92,7 +92,7 @@ def eval_HMMs(hmm_set, file_list, feature_type='fbank'):
 # =================================================================
 # MAIN FUNCTION 
 # =================================================================
-def main(NUM_STATES, NUM_MIXTURES):
+def main(): #def main(NUM_STATES, NUM_MIXTURES): FOR REPORT
     MODEL_FILE = os.path.join(MODEL_DIR, "hmmfile_{0}_{1}states_{2}mix".format(FEATURE_TYPE, NUM_STATES, NUM_MIXTURES))
     # Load trained HMM set
     if not os.path.exists(MODEL_FILE):
@@ -109,10 +109,11 @@ def main(NUM_STATES, NUM_MIXTURES):
 
     # Evaluation
     WER, target_labels, rec_labels = eval_HMMs(hmm_set, flist, feature_type=FEATURE_TYPE)
-    return WER
+    #return WER #FOR REPORT
 
 # =================================================================
 if __name__ == '__main__':
+    """FOR REPORT
     table = np.zeros((3, 3))
     S = [10,3] #rows
     M = [3,1] #cols
@@ -123,5 +124,6 @@ if __name__ == '__main__':
     for s in range(2):
         for m in range(2):
             table[s+1][m+1]=main(S[s],M[m])
-    print(table)
+    print(table)"""
+    main()
 
