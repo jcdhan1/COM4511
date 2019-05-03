@@ -22,11 +22,11 @@ TRAIN_LIST = '{0}/flists/flist_train.txt'.format(DATA_DIR)
 TEST_LIST = '{0}/flists/flist_test.txt'.format(DATA_DIR)
 
 # HMM parameters
-NUM_STATES = 10  # number of HMM states
-NUM_MIXTURES = 3  # number of Gaussian mixtures per state
-FEATURE_TYPE = 'mfcc'  # 'fbank' or 'mfcc'
+#NUM_STATES = 10  # number of HMM states
+#NUM_MIXTURES = 1  # number of Gaussian mixtures per state
+FEATURE_TYPE = 'fbank'  # 'fbank' or 'mfcc'
 MODEL_DIR = 'models'
-MODEL_FILE = os.path.join(MODEL_DIR, "hmmfile_{0}_{1}states_{2}mix".format(FEATURE_TYPE, NUM_STATES, NUM_MIXTURES))
+#MODEL_FILE = os.path.join(MODEL_DIR, "hmmfile_{0}_{1}states_{2}mix".format(FEATURE_TYPE, NUM_STATES, NUM_MIXTURES))
 
 # =================================================================
 # EVALUATION ROUTINE 
@@ -92,8 +92,8 @@ def eval_HMMs(hmm_set, file_list, feature_type='fbank'):
 # =================================================================
 # MAIN FUNCTION 
 # =================================================================
-def main():
-
+def main(NUM_STATES, NUM_MIXTURES):
+    MODEL_FILE = os.path.join(MODEL_DIR, "hmmfile_{0}_{1}states_{2}mix".format(FEATURE_TYPE, NUM_STATES, NUM_MIXTURES))
     # Load trained HMM set
     if not os.path.exists(MODEL_FILE):
         print('HMM file cannot be found: {0}'.format(MODEL_FILE))
@@ -109,9 +109,19 @@ def main():
 
     # Evaluation
     WER, target_labels, rec_labels = eval_HMMs(hmm_set, flist, feature_type=FEATURE_TYPE)
-
+    return WER
 
 # =================================================================
 if __name__ == '__main__':
-    main()
+    table = np.zeros((3, 3))
+    S = [10,3] #rows
+    M = [3,1] #cols
+    table[0][1] = S[0]
+    table[0][2] = S[1]
+    table[1][0] = M[0]
+    table[2][0] = M[1]
+    for s in range(2):
+        for m in range(2):
+            table[s+1][m+1]=main(S[s],M[m])
+    print(table)
 
